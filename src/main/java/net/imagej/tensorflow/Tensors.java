@@ -7,13 +7,13 @@
  * %%
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -225,14 +225,14 @@ public final class Tensors {
 	 *          Tensor. TODO Example?
 	 * @return An image containing the data of the Tensor.
 	 */
-	public static Img<ByteType> imgByte(final Tensor image, int[] dimOrder) {
+	public static Img<ByteType> imgByte(final Tensor image, final int[] dimOrder) {
 		return reverseReorder(reverse(imgByte(image)), dimOrder);
 	}
 
 	/**
 	 * Creates an image of type {@link DoubleType} containing the data of a
 	 * TensorFlow Tensor with the data type {@link DataType#DOUBLE}.
-	 * 
+	 *
 	 * @param image The TensorFlow Tensor.
 	 * @param dimOrder Defines the mapping of the dimensions between the image
 	 *          and the Tensor where the index corresponds to the dimension
@@ -241,14 +241,14 @@ public final class Tensors {
 	 * @return An image containing the data of the Tensor.
 	 * @throws IllegalArgumentException if Tensor data type is not double.
 	 */
-	public static Img<DoubleType> imgDouble(final Tensor image, int[] dimOrder) {
+	public static Img<DoubleType> imgDouble(final Tensor image, final int[] dimOrder) {
 		return reverseReorder(reverse(imgDouble(image)), dimOrder);
 	}
 
 	/**
 	 * Creates an image of type {@link FloatType} containing the data of a
 	 * TensorFlow Tensor with the data type {@link DataType#FLOAT}.
-	 * 
+	 *
 	 * @param image The TensorFlow Tensor.
 	 * @param dimOrder Defines the mapping of the dimensions between the image
 	 *          and the Tensor where the index corresponds to the dimension
@@ -257,14 +257,14 @@ public final class Tensors {
 	 * @return An image containing the data of the Tensor.
 	 * @throws IllegalArgumentException if Tensor data type is not float.
 	 */
-	public static Img<FloatType> imgFloat(final Tensor image, int[] dimOrder) {
+	public static Img<FloatType> imgFloat(final Tensor image, final int[] dimOrder) {
 		return reverseReorder(reverse(imgFloat(image)), dimOrder);
 	}
 
 	/**
 	 * Creates an image of type {@link IntType} containing the data of a
 	 * TensorFlow Tensor with the data type {@link DataType#INT32}.
-	 * 
+	 *
 	 * @param image The TensorFlow Tensor.
 	 * @param dimOrder Defines the mapping of the dimensions between the image
 	 *          and the Tensor where the index corresponds to the dimension
@@ -273,14 +273,14 @@ public final class Tensors {
 	 * @return An image containing the data of the Tensor.
 	 * @throws IllegalArgumentException if Tensor data type is not int.
 	 */
-	public static Img<IntType> imgInt(final Tensor image, int[] dimOrder) {
+	public static Img<IntType> imgInt(final Tensor image, final int[] dimOrder) {
 		return reverseReorder(reverse(imgInt(image)), dimOrder);
 	}
 
 	/**
 	 * Creates an image of type {@link LongType} containing the data of a
 	 * TensorFlow Tensor with the data type {@link DataType#INT64}.
-	 * 
+	 *
 	 * @param image The TensorFlow Tensor.
 	 * @param dimOrder Defines the mapping of the dimensions between the image
 	 *          and the Tensor where the index corresponds to the dimension
@@ -289,7 +289,7 @@ public final class Tensors {
 	 * @return An image containing the data of the Tensor.
 	 * @throws IllegalArgumentException if Tensor data type is not long.
 	 */
-	public static Img<LongType> imgLong(final Tensor image, int[] dimOrder) {
+	public static Img<LongType> imgLong(final Tensor image, final int[] dimOrder) {
 		return reverseReorder(reverse(imgLong(image)), dimOrder);
 	}
 
@@ -418,12 +418,12 @@ public final class Tensors {
 		// | 4 5 6 |    | 2 4 6 |
 
 		final T type = Util.getTypeFromInterval(image);
-		if (type instanceof ByteType) {
-			@SuppressWarnings("unchecked")
-			final RandomAccessibleInterval<ByteType> typedImage =
-				(RandomAccessibleInterval<ByteType>) image;
-			return tensorByte(typedImage);
-		}
+//		if (type instanceof ByteType) {
+//			@SuppressWarnings("unchecked")
+//			final RandomAccessibleInterval<ByteType> typedImage =
+//				(RandomAccessibleInterval<ByteType>) image;
+//			return tensorByte(typedImage);
+//		}
 		if (type instanceof DoubleType) {
 			@SuppressWarnings("unchecked")
 			final RandomAccessibleInterval<DoubleType> typedImage =
@@ -471,7 +471,7 @@ public final class Tensors {
 	 *          {@link FloatType}, {@link IntType} and {@link LongType}.
 	 */
 	public static <T extends RealType<T>> Tensor tensor(
-		final RandomAccessibleInterval<T> image, int[] dimOrder)
+		final RandomAccessibleInterval<T> image, final int[] dimOrder)
 	{
 		// TODO Are 2 calls bad? More views are created but they should be smart
 		// about this
@@ -505,26 +505,26 @@ public final class Tensors {
 
 	// "low level" methods that do NOT adjust dimensions
 
-	/**
-	 * Creates a TensorFlow Tensor containing data from the given byte image.
-	 * <p>
-	 * Note that this does _not_ adjust any dimensions. This means that
-	 * the resulting Tensor will have a shape corresponding to the reversed
-	 * dimensions of the image.
-	 * </p><p>
-	 * Also note that this will use the backing RAI's primitive array when one is
-	 * available. Otherwise a copy will be made.
-	 * </p>
-	 * @param image The image which should be put into the Tensor.
-	 * @return A Tensor containing the data of the image.
-	 */
-	public static Tensor tensorByte(
-		final RandomAccessibleInterval<ByteType> image)
-	{
-		final byte[] value = byteArray(image);
-		ByteBuffer buffer = ByteBuffer.wrap(value);
-		return Tensor.create(DataType.UINT8, shape(image), buffer);
-	}
+//	/**
+//	 * Creates a TensorFlow Tensor containing data from the given byte image.
+//	 * <p>
+//	 * Note that this does _not_ adjust any dimensions. This means that
+//	 * the resulting Tensor will have a shape corresponding to the reversed
+//	 * dimensions of the image.
+//	 * </p><p>
+//	 * Also note that this will use the backing RAI's primitive array when one is
+//	 * available. Otherwise a copy will be made.
+//	 * </p>
+//	 * @param image The image which should be put into the Tensor.
+//	 * @return A Tensor containing the data of the image.
+//	 */
+//	public static Tensor tensorByte(
+//		final RandomAccessibleInterval<ByteType> image)
+//	{
+//		final byte[] value = byteArray(image);
+//		final ByteBuffer buffer = ByteBuffer.wrap(value);
+//		return Tensor.create(Byte.class, shape(image), buffer);
+//	}
 
 	/**
 	 * Creates a TensorFlow Tensor containing data from the given double image.
@@ -543,7 +543,7 @@ public final class Tensors {
 		final RandomAccessibleInterval<DoubleType> image)
 	{
 		final double[] value = doubleArray(image);
-		DoubleBuffer buffer = DoubleBuffer.wrap(value);
+		final DoubleBuffer buffer = DoubleBuffer.wrap(value);
 		return Tensor.create(shape(image), buffer);
 	}
 
@@ -564,7 +564,7 @@ public final class Tensors {
 		final RandomAccessibleInterval<FloatType> image)
 	{
 		final float[] value = floatArray(image);
-		FloatBuffer buffer = FloatBuffer.wrap(value);
+		final FloatBuffer buffer = FloatBuffer.wrap(value);
 		return Tensor.create(shape(image), buffer);
 	}
 
@@ -585,7 +585,7 @@ public final class Tensors {
 		final RandomAccessibleInterval<IntType> image)
 	{
 		final int[] value = intArray(image);
-		IntBuffer buffer = IntBuffer.wrap(value);
+		final IntBuffer buffer = IntBuffer.wrap(value);
 		return Tensor.create(shape(image), buffer);
 	}
 
@@ -606,7 +606,7 @@ public final class Tensors {
 		final RandomAccessibleInterval<LongType> image)
 	{
 		final long[] value = longArray(image);
-		LongBuffer buffer = LongBuffer.wrap(value);
+		final LongBuffer buffer = LongBuffer.wrap(value);
 		return Tensor.create(shape(image), buffer);
 	}
 
@@ -615,12 +615,12 @@ public final class Tensors {
 	/**
 	 * Gets the TensorFlow shape of an image. This is the same as the image's
 	 * dimension lengths, but in reversed order.
-	 * 
+	 *
 	 * @param image The image whose shape is desired.
 	 * @return The TensorFlow shape.
 	 */
 	private static long[] shape(final Dimensions image) {
-		long[] shape = new long[image.numDimensions()];
+		final long[] shape = new long[image.numDimensions()];
 		for (int d = 0; d < shape.length; d++) {
 			shape[d] = image.dimension(shape.length - d - 1);
 		}
@@ -630,7 +630,7 @@ public final class Tensors {
 	/**
 	 * Gets the imglib dimension length of a tensor. This is the same as the
 	 * tensor's shape but in reversed order.
-	 * 
+	 *
 	 * @param tensor The tensor whose dimension length are desired.
 	 * @return The imglib dimension length.
 	 */
@@ -639,15 +639,15 @@ public final class Tensors {
 	}
 
 	/** Flips all dimensions {@code d0,d1,...,dn -> dn,...,d1,d0}. */
-	public static <T extends RealType<T>> Img<T> reverse(Img<T> image)
+	public static <T extends RealType<T>> Img<T> reverse(final Img<T> image)
 	{
-		RandomAccessibleInterval<T> reversed = reverse((RandomAccessibleInterval<T>) image);
+		final RandomAccessibleInterval<T> reversed = reverse((RandomAccessibleInterval<T>) image);
 		return ImgView.wrap(reversed, image.factory());
 	}
 
 	/** Flips all dimensions {@code d0,d1,...,dn -> dn,...,d1,d0}. */
 	public static <T extends RealType<T>> RandomAccessibleInterval<T> reverse(
-		RandomAccessibleInterval<T> image)
+		final RandomAccessibleInterval<T> image)
 	{
 		RandomAccessibleInterval<T> reversed = image;
 		for (int d = 0; d < image.numDimensions() / 2; d++) {
@@ -657,14 +657,14 @@ public final class Tensors {
 	}
 
 	private static <T extends RealType<T>> Img<T> reorder(
-		Img<T> image, int[] dimOrder)
+		final Img<T> image, final int[] dimOrder)
 	{
-		RandomAccessibleInterval<T> result = reorder((RandomAccessibleInterval<T>) image, dimOrder);
+		final RandomAccessibleInterval<T> result = reorder((RandomAccessibleInterval<T>) image, dimOrder);
 		return ImgView.wrap(result, image.factory());
 	}
 
 	private static <T extends RealType<T>> RandomAccessibleInterval<T> reorder(
-		RandomAccessibleInterval<T> image, int[] dimOrder)
+		final RandomAccessibleInterval<T> image, final int[] dimOrder)
 	{
 		RandomAccessibleInterval<T> output = image;
 
@@ -673,8 +673,8 @@ public final class Tensors {
 
 		// Loop over all dimensions and move it to the right spot
 		for (int i = 0; i < image.numDimensions(); i++) {
-			int from = moved[i];
-			int to = dimOrder[i];
+			final int from = moved[i];
+			final int to = dimOrder[i];
 
 			// Move the dimension to the right dimension
 			output = Views.permute(output, from, to);
@@ -686,8 +686,8 @@ public final class Tensors {
 		return output;
 	}
 
-	private static <T extends RealType<T>> Img<T> reverseReorder(Img<T> image, int[] dimOrder) {
-		int[] reverseDimOrder = new int[dimOrder.length];
+	private static <T extends RealType<T>> Img<T> reverseReorder(final Img<T> image, final int[] dimOrder) {
+		final int[] reverseDimOrder = new int[dimOrder.length];
 		for (int i = 0; i < dimOrder.length; i++) {
 			reverseDimOrder[dimOrder[i]] = i;
 		}

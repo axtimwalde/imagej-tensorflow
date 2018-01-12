@@ -7,13 +7,13 @@
  * %%
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -36,6 +36,17 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.IntStream;
 
+import org.scijava.ItemIO;
+import org.scijava.command.Command;
+import org.scijava.io.http.HTTPLocation;
+import org.scijava.log.LogService;
+import org.scijava.plugin.Parameter;
+import org.scijava.plugin.Plugin;
+import org.tensorflow.Graph;
+import org.tensorflow.Output;
+import org.tensorflow.Session;
+import org.tensorflow.Tensor;
+
 import net.imagej.Dataset;
 import net.imagej.ImageJ;
 import net.imagej.tensorflow.GraphBuilder;
@@ -47,17 +58,6 @@ import net.imglib2.converter.RealFloatConverter;
 import net.imglib2.img.Img;
 import net.imglib2.type.numeric.RealType;
 import net.imglib2.type.numeric.real.FloatType;
-
-import org.scijava.ItemIO;
-import org.scijava.command.Command;
-import org.scijava.io.http.HTTPLocation;
-import org.scijava.log.LogService;
-import org.scijava.plugin.Parameter;
-import org.scijava.plugin.Plugin;
-import org.tensorflow.Graph;
-import org.tensorflow.Output;
-import org.tensorflow.Session;
-import org.tensorflow.Tensor;
 
 /**
  * Command to use an Inception-image recognition model to label an image.
@@ -156,7 +156,7 @@ public class LabelImage implements Command {
 		final RandomAccessibleInterval<T> image)
 	{
 		// NB: Assumes XYC ordering. TensorFlow wants YXC.
-		RealFloatConverter<T> converter = new RealFloatConverter<>();
+		final RealFloatConverter<T> converter = new RealFloatConverter<>();
 		return Tensors.tensor(Converters.convert(image, converter, new FloatType()), new int[]{ 1, 0, 2 });
 	}
 
@@ -213,11 +213,11 @@ public class LabelImage implements Command {
 					Arrays.toString(rshape)));
 			}
 			final int nlabels = (int) rshape[1];
-			return result.copyTo(new float[1][nlabels])[0];
+			return ((float[][])result.copyTo(new float[1][nlabels]))[0];
 		}
 	}
 
-	public static void main(String[] args) throws IOException {
+	public static void main(final String[] args) throws IOException {
 		final ImageJ ij = new ImageJ();
 		ij.launch(args);
 
