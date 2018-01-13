@@ -125,7 +125,7 @@ public final class Tensors {
 	 * @param image The TensorFlow Tensor.
 	 * @return An image containing the data of the Tensor.
 	 */
-	public static Img<ByteType> imgByte(final Tensor image) {
+	public static Img<ByteType> imgByte(final Tensor<?> image) {
 		final byte[] out = new byte[image.numElements()];
 		image.writeTo(ByteBuffer.wrap(out));
 		return ArrayImgs.bytes(out, shape(image));
@@ -145,7 +145,7 @@ public final class Tensors {
 	 * @return An image containing the data of the Tensor.
 	 * @throws IllegalArgumentException if Tensor data type is not double.
 	 */
-	public static Img<DoubleType> imgDouble(final Tensor image) {
+	public static Img<DoubleType> imgDouble(final Tensor<?> image) {
 		final double[] out = new double[image.numElements()];
 		image.writeTo(DoubleBuffer.wrap(out));
 		return ArrayImgs.doubles(out, shape(image));
@@ -165,7 +165,7 @@ public final class Tensors {
 	 * @return An image containing the data of the Tensor.
 	 * @throws IllegalArgumentException if Tensor data type is not float.
 	 */
-	public static Img<FloatType> imgFloat(final Tensor image) {
+	public static Img<FloatType> imgFloat(final Tensor<?> image) {
 		final float[] out = new float[image.numElements()];
 		image.writeTo(FloatBuffer.wrap(out));
 		return ArrayImgs.floats(out, shape(image));
@@ -185,7 +185,7 @@ public final class Tensors {
 	 * @return An image containing the data of the Tensor.
 	 * @throws IllegalArgumentException if Tensor data type is not int.
 	 */
-	public static Img<IntType> imgInt(final Tensor image) {
+	public static Img<IntType> imgInt(final Tensor<?> image) {
 		final int[] out = new int[image.numElements()];
 		image.writeTo(IntBuffer.wrap(out));
 		return ArrayImgs.ints(out, shape(image));
@@ -205,7 +205,7 @@ public final class Tensors {
 	 * @return An image containing the data of the Tensor.
 	 * @throws IllegalArgumentException if Tensor data type is not long.
 	 */
-	public static Img<LongType> imgLong(final Tensor image) {
+	public static Img<LongType> imgLong(final Tensor<?> image) {
 		final long[] out = new long[image.numElements()];
 		image.writeTo(LongBuffer.wrap(out));
 		return ArrayImgs.longs(out, shape(image));
@@ -225,7 +225,7 @@ public final class Tensors {
 	 *          Tensor. TODO Example?
 	 * @return An image containing the data of the Tensor.
 	 */
-	public static Img<ByteType> imgByte(final Tensor image, final int[] dimOrder) {
+	public static Img<ByteType> imgByte(final Tensor<?> image, final int[] dimOrder) {
 		return reverseReorder(reverse(imgByte(image)), dimOrder);
 	}
 
@@ -241,7 +241,7 @@ public final class Tensors {
 	 * @return An image containing the data of the Tensor.
 	 * @throws IllegalArgumentException if Tensor data type is not double.
 	 */
-	public static Img<DoubleType> imgDouble(final Tensor image, final int[] dimOrder) {
+	public static Img<DoubleType> imgDouble(final Tensor<?> image, final int[] dimOrder) {
 		return reverseReorder(reverse(imgDouble(image)), dimOrder);
 	}
 
@@ -257,7 +257,7 @@ public final class Tensors {
 	 * @return An image containing the data of the Tensor.
 	 * @throws IllegalArgumentException if Tensor data type is not float.
 	 */
-	public static Img<FloatType> imgFloat(final Tensor image, final int[] dimOrder) {
+	public static Img<FloatType> imgFloat(final Tensor<?> image, final int[] dimOrder) {
 		return reverseReorder(reverse(imgFloat(image)), dimOrder);
 	}
 
@@ -273,7 +273,7 @@ public final class Tensors {
 	 * @return An image containing the data of the Tensor.
 	 * @throws IllegalArgumentException if Tensor data type is not int.
 	 */
-	public static Img<IntType> imgInt(final Tensor image, final int[] dimOrder) {
+	public static Img<IntType> imgInt(final Tensor<?> image, final int[] dimOrder) {
 		return reverseReorder(reverse(imgInt(image)), dimOrder);
 	}
 
@@ -289,7 +289,7 @@ public final class Tensors {
 	 * @return An image containing the data of the Tensor.
 	 * @throws IllegalArgumentException if Tensor data type is not long.
 	 */
-	public static Img<LongType> imgLong(final Tensor image, final int[] dimOrder) {
+	public static Img<LongType> imgLong(final Tensor<?> image, final int[] dimOrder) {
 		return reverseReorder(reverse(imgLong(image)), dimOrder);
 	}
 
@@ -309,7 +309,7 @@ public final class Tensors {
 	 * @param image The TensorFlow Tensor.
 	 * @return An image containing the data of the Tensor.
 	 */
-	public static Img<ByteType> imgByteDirect(final Tensor image) {
+	public static Img<ByteType> imgByteDirect(final Tensor<?> image) {
 		return reverse(imgByte(image));
 	}
 
@@ -327,7 +327,7 @@ public final class Tensors {
 	 * @return An image containing the data of the Tensor.
 	 * @throws IllegalArgumentException if Tensor data type is not double.
 	 */
-	public static Img<DoubleType> imgDoubleDirect(final Tensor image) {
+	public static Img<DoubleType> imgDoubleDirect(final Tensor<?> image) {
 		return reverse(imgDouble(image));
 	}
 
@@ -345,7 +345,7 @@ public final class Tensors {
 	 * @return An image containing the data of the Tensor.
 	 * @throws IllegalArgumentException if Tensor data type is not float.
 	 */
-	public static Img<FloatType> imgFloatDirect(final Tensor image) {
+	public static Img<FloatType> imgFloatDirect(final Tensor<?> image) {
 		return reverse(imgFloat(image));
 	}
 
@@ -363,7 +363,7 @@ public final class Tensors {
 	 * @return An image containing the data of the Tensor.
 	 * @throws IllegalArgumentException if Tensor data type is not int.
 	 */
-	public static Img<IntType> imgIntDirect(final Tensor image) {
+	public static Img<IntType> imgIntDirect(final Tensor<?> image) {
 		return reverse(imgInt(image));
 	}
 
@@ -381,7 +381,7 @@ public final class Tensors {
 	 * @return An image containing the data of the Tensor.
 	 * @throws IllegalArgumentException if Tensor data type is not long.
 	 */
-	public static Img<LongType> imgLongDirect(final Tensor image) {
+	public static Img<LongType> imgLongDirect(final Tensor<?> image) {
 		return reverse(imgLong(image));
 	}
 
@@ -407,7 +407,7 @@ public final class Tensors {
 	 *          Supported types are {@link ByteType}, {@link DoubleType},
 	 *          {@link FloatType}, {@link IntType} and {@link LongType}.
 	 */
-	public static <T extends RealType<T>> Tensor tensor(
+	public static <T extends RealType<T>> Tensor<?> tensor(
 		final RandomAccessibleInterval<T> image)
 	{
 		// NB: In the functions called we use reversed dimensions because
@@ -470,7 +470,7 @@ public final class Tensors {
 	 *          Supported types are {@link ByteType}, {@link DoubleType},
 	 *          {@link FloatType}, {@link IntType} and {@link LongType}.
 	 */
-	public static <T extends RealType<T>> Tensor tensor(
+	public static <T extends RealType<T>> Tensor<?> tensor(
 		final RandomAccessibleInterval<T> image, final int[] dimOrder)
 	{
 		// TODO Are 2 calls bad? More views are created but they should be smart
@@ -497,7 +497,7 @@ public final class Tensors {
 	 *          Supported types are {@link ByteType}, {@link DoubleType},
 	 *          {@link FloatType}, {@link IntType} and {@link LongType}.
 	 */
-	public static <T extends RealType<T>> Tensor tensorDirect(
+	public static <T extends RealType<T>> Tensor<?> tensorDirect(
 		final RandomAccessibleInterval<T> image)
 	{
 		return tensor(reverse(image));
@@ -539,7 +539,7 @@ public final class Tensors {
 	 * @param image The image which should be put into the Tensor.
 	 * @return A Tensor containing the data of the image.
 	 */
-	public static Tensor tensorDouble(
+	public static Tensor<Double> tensorDouble(
 		final RandomAccessibleInterval<DoubleType> image)
 	{
 		final double[] value = doubleArray(image);
@@ -560,7 +560,7 @@ public final class Tensors {
 	 * @param image The image which should be put into the Tensor.
 	 * @return A Tensor containing the data of the image.
 	 */
-	public static Tensor tensorFloat(
+	public static Tensor<Float> tensorFloat(
 		final RandomAccessibleInterval<FloatType> image)
 	{
 		final float[] value = floatArray(image);
@@ -581,7 +581,7 @@ public final class Tensors {
 	 * @param image The image which should be put into the Tensor.
 	 * @return A Tensor containing the data of the image.
 	 */
-	public static Tensor tensorInt(
+	public static Tensor<Integer> tensorInt(
 		final RandomAccessibleInterval<IntType> image)
 	{
 		final int[] value = intArray(image);
@@ -602,7 +602,7 @@ public final class Tensors {
 	 * @param image The image which should be put into the Tensor.
 	 * @return A Tensor containing the data of the image.
 	 */
-	public static Tensor tensorLong(
+	public static Tensor<Long> tensorLong(
 		final RandomAccessibleInterval<LongType> image)
 	{
 		final long[] value = longArray(image);
@@ -634,7 +634,7 @@ public final class Tensors {
 	 * @param tensor The tensor whose dimension length are desired.
 	 * @return The imglib dimension length.
 	 */
-	private static long[] shape(final Tensor tensor) {
+	private static long[] shape(final Tensor<?> tensor) {
 		return shape(new FinalDimensions(tensor.shape()));
 	}
 
